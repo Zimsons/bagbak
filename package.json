@@ -3,9 +3,14 @@
   "version": "4.0.3",
   "description": "Dump iOS app from a jailbroken device, based on frida.re",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo 'Not supported'",
-    "types": "npx -p typescript tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types --lib esnext"
+    "types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types --lib esnext",
+    "prepublishOnly": "npm run types",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "frida:check": "node -e \"console.log(require('frida').version)\""
   },
   "author": "CodeColorist",
   "license": "MIT",
@@ -15,24 +20,31 @@
   "types": "types/index.d.ts",
   "files": [
     "index.js",
-    "/agent/inject.js",
-    "/agent/runningboardd.js",
-    "/bin",
-    "/lib/"
+    "agent/",
+    "bin/",
+    "lib/",
+    "types/"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.0.0 <23.0.0"
   },
-  "type": "module",
+  "frida": {
+    "runtime": "qjs",
+    "minimumVersion": "17.0.0"
+  },
   "devDependencies": {
     "@types/frida-gum": "^18.7.0",
-    "@types/node": "^18.15.11"
+    "@types/node": "^18.15.11",
+    "@types/ssh2": "^1.11.0",
+    "typescript": "^5.4.5",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
-    "commander": "^5.1.0",
-    "frida": "^16.7.19",
-    "ssh2": "^1.11.0"
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "frida": "17.6.0",
+    "ssh2": "^1.15.0"
   },
   "repository": {
     "type": "git",
@@ -47,5 +59,8 @@
   "bugs": {
     "url": "https://github.com/ChiChou/bagbak/issues"
   },
-  "homepage": "https://github.com/ChiChou/bagbak#readme"
+  "homepage": "https://github.com/ChiChou/bagbak#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
